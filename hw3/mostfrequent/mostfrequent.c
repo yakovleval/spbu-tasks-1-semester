@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <locale.h>
 
-// сортирует отрезок [leftBound, rightBound] массива array
+// sorts segment [leftBound, rightBound] in array
 void insertionSort(int* array, const size_t leftBound, const size_t rightBound)
 {
 	for (size_t i = leftBound + 1; i <= rightBound; i++)
@@ -17,7 +17,7 @@ void insertionSort(int* array, const size_t leftBound, const size_t rightBound)
 	}
 }
 
-// разделяем по опорному элементу отрезок [leftBound, rightBound] массива array
+// parts segment [leftBound, rightBound] of array
 void partition(int* array, const int leftBound, const int rightBound,
 	int* pLeftIndex, int* pRightIndex, const int pivot)
 {
@@ -46,7 +46,7 @@ void partition(int* array, const int leftBound, const int rightBound,
 	*pRightIndex = rightIndex;
 }
 
-// сортирует отрезок [leftBound, rightBound] массива array
+// sorts segment [leftBound, rightBound] in array
 void quickSort(int* array, const int leftBound, const int rightBound)
 {
 	const int blockSize = rightBound - leftBound + 1;
@@ -60,7 +60,7 @@ void quickSort(int* array, const int leftBound, const int rightBound)
 		return;
 	}
 
-	// выбор опорного элемента
+	// chooses pivot 
 	int pivot = array[0];
 	for (int i = leftBound; i <= rightBound; i++)
 	{
