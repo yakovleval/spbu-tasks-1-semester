@@ -1,9 +1,9 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<stdbool.h>
-#include<locale.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <locale.h>
 
-// [leftBound, rightBound]
+// сортирует отрезок [leftBound, rightBound] массива array
 void insertionSort(int* array, const size_t leftBound, const size_t rightBound)
 {
     for (size_t i = leftBound + 1; i <= rightBound; i++)
@@ -17,7 +17,7 @@ void insertionSort(int* array, const size_t leftBound, const size_t rightBound)
     }
 }
 
-// [leftBound, rightBound]
+// разделяет по опорному элементу отрезок [leftBound, rightBound] массива array
 void partition(int* array, const int leftBound, const int rightBound,
     int* pLeftIndex, int* pRightIndex, const int pivot)
 {
@@ -46,7 +46,7 @@ void partition(int* array, const int leftBound, const int rightBound,
     *pRightIndex = rightIndex;
 }
 
-// [leftBound, rightBound]
+// сортирует отрезок [leftBound, rightBound] массива array
 void quickSort(int* array, const int leftBound, const int rightBound)
 {
     const int blockSize = rightBound - leftBound + 1;
@@ -75,17 +75,18 @@ void quickSort(int* array, const int leftBound, const int rightBound)
     int leftPartIndex = 0;
     int rightPartIndex = 0;
     partition(array, leftBound, rightBound, &leftPartIndex, &rightPartIndex, pivot);
-    quickSort(array, leftBound, rightPartIndex); //leftPartIndex > rightPartIndex
-    quickSort(array, leftPartIndex, rightBound); //leftPartIndex > rightPartIndex
+    quickSort(array, leftBound, rightPartIndex);
+    quickSort(array, leftPartIndex, rightBound);
 }
 
 bool binSearch(const int* array, const size_t size, const int key)
 {
+    // инвариант: leftBound <= key, rightBound > key
     int leftBound = 0;
-    int rightBound = size; // [leftBound, rightBound)
+    int rightBound = size;
     while (rightBound - leftBound > 1)
     {
-        int middle = leftBound + (rightBound - leftBound) / 2;
+        int middle = (leftBound + rightBound) / 2;
         if (array[middle] <= key)
         {
             leftBound = middle;

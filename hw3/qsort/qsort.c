@@ -1,23 +1,23 @@
-#include<stdio.h>
-#include<locale.h>
-#include<stdbool.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <locale.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
-// [leftBound, rightBound]
+// сортирует отрезок [leftBound, rightBound] массива array
 void insertionSort(int* array, const size_t leftBound, const size_t rightBound)
 {
     for (size_t i = leftBound + 1; i <= rightBound; i++)
     {
-        for (size_t j = i - 1; j >= 0 && array[j] > array[j+1]; j--)
+        for (size_t j = i - 1; j >= 0 && array[j] > array[j + 1]; j--)
         {
             const int tmp = array[j];
-            array[j] = array[j+1];
-            array[j+1] = tmp;
+            array[j] = array[j + 1];
+            array[j + 1] = tmp;
         }
     }
 }
 
-// [leftBound, rightBound]
+// разделяет по опорному элементу отрезок [leftBound, rightBound] массива array
 void partition(int* array, const int leftBound, const int rightBound, 
     int *pLeftIndex, int *pRightIndex, const int pivot)
 {
@@ -46,7 +46,7 @@ void partition(int* array, const int leftBound, const int rightBound,
     *pRightIndex = rightIndex;
 }
 
-// [leftBound, rightBound]
+// сортирует отрезок [leftBound, rightBound] vмассива array
 void quickSort(int *array, const int leftBound, const int rightBound)
 {
     const int blockSize = rightBound - leftBound + 1;
@@ -75,11 +75,11 @@ void quickSort(int *array, const int leftBound, const int rightBound)
     int leftPartIndex = 0;
     int rightPartIndex = 0;
     partition(array, leftBound, rightBound, &leftPartIndex, &rightPartIndex, pivot);
-    quickSort(array, leftBound, rightPartIndex); //leftPartIndex > rightPartIndex
-    quickSort(array, leftPartIndex, rightBound); //leftPartIndex > rightPartIndex
+    quickSort(array, leftBound, rightPartIndex);
+    quickSort(array, leftPartIndex, rightBound);
 }
 
-// [leftBound, rightBound]
+// проверка на отсортированность отрезка [leftBound, rightBound]
 bool isSorted(const int *array, const size_t leftBound, const size_t rightBound)
 {
     for (size_t i = leftBound; i < rightBound; i++)
@@ -112,7 +112,7 @@ int* generateRandomArray(const size_t size)
     return array;
 }
 
-bool isPassed()
+bool testRandomArrays()
 {
     const int testArraysNumber = 10;
     const int arraysSize = 50;
@@ -132,6 +132,25 @@ bool isPassed()
         free(testArrays[i]);
     }
     return result;
+}
+
+bool testSmallArrays()
+{
+
+    int testArray1[2] = {2, 1};
+    int testArray2[2] = {1, 2};
+    int testArray3[10] = {10, 9, 7, 8, 5, 4, 6, 3, 2, 1};
+    int testArray4[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    return testQuickSort(testArray1, 2) &&
+        testQuickSort(testArray2, 2) &&
+        testQuickSort(testArray3, 10) &&
+        testQuickSort(testArray4, 10);
+}
+
+bool isPassed()
+{
+    return testRandomArrays() &&
+        testSmallArrays();
 }
 
 void main()
