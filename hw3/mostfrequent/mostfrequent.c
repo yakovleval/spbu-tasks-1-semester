@@ -101,6 +101,12 @@ int mostFrequent(const int* array, const int size)
 			}
 		}
 	}
+	if (count > maxCount)
+	{
+		maxCount = count;
+		answer = array[size - 1];
+		count = 1;
+	}
 	return answer;
 }
 
