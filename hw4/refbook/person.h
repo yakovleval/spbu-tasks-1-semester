@@ -8,8 +8,6 @@ typedef struct
 	struct Person *next;
 } Person;
 
-Person *head = NULL;
-
 int listLen(Person* iterator);
 void loadList(Person* iterator, const FILE* file);
 Person* addPerson(Person* iterator, const char* phoneNumber, const char* personName);
