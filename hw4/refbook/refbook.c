@@ -3,37 +3,43 @@
 #include <stdbool.h>
 #include <locale.h>
 #include "person.h"
+#define _CRT_SECURE_NO_WARNINGS
 
 void main()
 {
+	const int bufSize = 101;
 	setlocale(LC_ALL, "Russian");
 	Person* list = NULL;
-	char name[100] = {0};
-	char number[100] = {0};
-	FILE* file = fopen("input.txt", "rw");
+	char name[101] = {0};
+	char number[101] = {0};
+	loadList(&list);
 	while (true)
 	{
 		printf("Введите номер действия:\n");
 		int action = 0;
-		scanf("%d", &action);
-		switch (action)
+		Person* node = NULL;
+		scanf(" %d", &action);
+		if (action == 0)
 		{
-		case 0:
 			freeList(list);
 			return;
-		case 1:
+		}
+		else if (action == 1)
+		{
 			printf("Введите имя и номер:\n");
-			scanf("%[^\n]\n", name);
-			scanf("%[^\n]\n", number);
-			addPerson(list, name, number);
-			break;
-		case 2:
-			printList(list);
-			break;
-		case 3:
+			scanf(" %[^\n]", name);
+			scanf(" %[^\n]", number);
+			addPerson(&list, name, number);
+		}
+		else if (action == 2)
+		{
+			printList(&list);
+		}
+		else if (action == 3)
+		{
 			printf("Введите имя:\n");
-			scanf("%[^\n]\n", name);
-			Person* node = findByName(list, name);
+			scanf(" %[^\n]", name);
+			node = findByName(&list, name);
 			if (node == NULL)
 			{
 				printf("Запись не найдена\n");
@@ -42,11 +48,12 @@ void main()
 			{
 				printf("Номер телефона: %s\n", node->phoneNumber);
 			}
-			break;
-		case 4:
+		}
+		else if (action == 4)
+		{
 			printf("Введите номер:\n");
-			scanf("%s\n", number);
-			Person* node = findByNumber(list, number);
+			scanf(" %[^\n]", number);
+			node = findByNumber(&list, number);
 			if (node == NULL)
 			{
 				printf("Запись не найдена\n");
@@ -55,11 +62,11 @@ void main()
 			{
 				printf("Имя: %s\n", node->personName);
 			}
-			break;
-		case 5:
-			saveList(list, file);
+		}
+		else if (action == 5)
+		{
+			saveList(&list);
 			printf("Список сохранён в файл\n");
 		}
 	}
-	fclose(file);
 }
