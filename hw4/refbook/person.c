@@ -5,13 +5,13 @@
 
 int listLen(Person** iterator)
 {
-	int listLen = 0;
+	int length = 0;
 	while (*iterator != NULL)
 	{
-		listLen++;
+		length++;
 		iterator = &(*iterator)->next;
 	}
-	return listLen;
+	return length;
 }
 
 void loadList(Person** iterator)
@@ -23,31 +23,31 @@ void loadList(Person** iterator)
 	}
 	int length = 0;
 	fscanf(in, " %d", &length);
-	char personName[101] = {0};
-	char phoneNumber[101] = {0};
+	char name[101] = {0};
+	char number[101] = {0};
 	for (int i = 0; i < length; i++)
 	{
 		fscanf(in, "%*d");
-		fscanf(in, " %[^\n]", personName);
-		fscanf(in, " %[^\n]", phoneNumber);
+		fscanf(in, " %[^\n]", name);
+		fscanf(in, " %[^\n]", number);
 		*iterator = (Person*)malloc(sizeof(Person));
-		strcpy((*iterator)->personName, personName);
-		strcpy((*iterator)->phoneNumber, phoneNumber);
+		strcpy((*iterator)->name, name);
+		strcpy((*iterator)->number, number);
 		(*iterator)->next = NULL;
 		iterator = &(*iterator)->next;
 	}
 	fclose(in);
 }
 
-void addPerson(Person** iterator, const char* personName, const char* phoneNumber)
+void addPerson(Person** iterator, const char* name, const char* number)
 {
 	while (*iterator != NULL)
 	{
 		iterator = &(*iterator)->next;
 	}
 	*iterator = (Person*)malloc(sizeof(Person));
-	strcpy((*iterator)->personName, personName);
-	strcpy((*iterator)->phoneNumber, phoneNumber);
+	strcpy((*iterator)->name, name);
+	strcpy((*iterator)->number, number);
 	(*iterator)->next = NULL;
 }
 
@@ -58,15 +58,15 @@ void printList(Person** iterator)
 	{
 		printf("%d\n", index);
 		index++;
-		printf("Имя: %s\n", (*iterator)->personName);
-		printf("Номер: %s\n", (*iterator)->phoneNumber);
+		printf("Имя: %s\n", (*iterator)->name);
+		printf("Номер: %s\n", (*iterator)->number);
 		iterator = &(*iterator)->next;
 	}
 }
 
-Person* findByNumber(Person** iterator, const char* phoneNumber)
+Person* findByNumber(Person** iterator, const char* number)
 {
-	while (*iterator != NULL && strcmp((*iterator)->phoneNumber, phoneNumber) != 0)
+	while (*iterator != NULL && strcmp((*iterator)->number, number) != 0)
 	{
 		iterator = &(*iterator)->next;
 	}
@@ -75,7 +75,7 @@ Person* findByNumber(Person** iterator, const char* phoneNumber)
 
 Person* findByName(Person** iterator, const char* name)
 {
-	while (*iterator != NULL && strcmp((*iterator)->personName, name) != 0)
+	while (*iterator != NULL && strcmp((*iterator)->name, name) != 0)
 	{
 		iterator = &(*iterator)->next;
 	}
@@ -91,8 +91,8 @@ void saveList(Person** iterator)
 	{
 		fprintf(out, "%d\n", index);
 		index++;
-		fprintf(out, "%s\n", (*iterator)->personName);
-		fprintf(out, "%s\n", (*iterator)->phoneNumber);
+		fprintf(out, "%s\n", (*iterator)->name);
+		fprintf(out, "%s\n", (*iterator)->number);
 		iterator = &(*iterator)->next;
 	}
 	fclose(out);

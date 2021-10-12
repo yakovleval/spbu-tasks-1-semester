@@ -2,16 +2,16 @@
 
 typedef struct
 {
-	char personName[101];
-	char phoneNumber[101];
+	char name[101];
+	char number[101];
 	struct Person *next;
 } Person;
 
 int listLen(Person** iterator);
 void loadList(Person** iterator);
-void addPerson(Person** iterator, const char* personName, const char* phoneNumber);
+void addPerson(Person** iterator, const char* name, const char* number);
 void printList(Person** iterator);
-Person* findByNumber(Person** iterator, const char* phoneNumber);
+Person* findByNumber(Person** iterator, const char* number);
 Person* findByName(Person** iterator, const char* name);
 void saveList(Person** iterator);
 void freeList(Person* iterator);
