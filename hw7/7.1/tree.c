@@ -37,12 +37,26 @@ void add(Node** root, const int key, const char* value)
     {
         free((*node)->value);
         (*node)->value = calloc(strlen(value) + 1, sizeof(char));
+        if ((*node)->value == NULL)
+        {
+            free(*node);
+            return;
+        }
         strcpy((*node)->value, value);
         return;
     }
     *node = calloc(1, sizeof(Node));
+    if (*node == NULL)
+    {
+        return;
+    }
     (*node)->key = key;
     (*node)->value = calloc(strlen(value) + 1, sizeof(char));
+    if ((*node)->value == NULL)
+    {
+        free(*node);
+        return;
+    }
     strcpy((*node)->value, value);
 }
 
@@ -64,7 +78,7 @@ void del(Node** root, const int key)
         next = &(*next)->leftChild;
     }
 
-    const char* tmpstr = (*node)->value;
+    char* const tmpstr = (*node)->value;
     (*node)->value = (*next)->value;
     (*next)->value = tmpstr;
 
