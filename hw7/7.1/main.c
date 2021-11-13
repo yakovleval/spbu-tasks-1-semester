@@ -4,9 +4,45 @@
 #include <stdlib.h>
 #include "tree.h"
 
+bool testAddandFind()
+{
+	Node* root = createTree();
+	add(&root, 555, "string1");
+	add(&root, 666, "string 2");
+	const bool result = *find(&root, 555) != NULL &&
+		*find(&root, 666) != NULL &&
+		*find(&root, 0) == NULL;
+	freeTree(&root);
+	return result;
+}
+
+bool testChange()
+{
+	Node* root = createTree();
+	add(&root, 555, "string1");
+	add(&root, 666, "string2");
+	add(&root, 555, "string");
+	const bool result = strcmp((*find(&root, 555))->value, "string") == 0;
+	freeTree(&root);
+	return result;
+}
+
+bool testDel()
+{
+	Node* root = createTree();
+	add(&root, 555, "string1");
+	add(&root, 666, "string2");
+	add(&root, 555, "string");
+	const bool result = strcmp((*find(&root, 555))->value, "string") == 0;
+	freeTree(&root);
+	return result;
+}
+
 bool isPassed()
 {
-	return true;
+	return testAddandFind() &&
+		testChange() &&
+		testDel();
 }
 
 void main()
