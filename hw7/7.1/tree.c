@@ -4,35 +4,54 @@
 #include <string.h>
 #include "tree.h"
 
+typedef struct Node
+{
+    struct Node* leftChild;
+    struct Node* rightChild;
+    struct Node* parent;
+    int key;
+    char* value;
+} Node;
+
+
 Node* createTree()
 {
     return NULL;
 }
 
-void freeTree(Node** root)
+void freeTree(Node* root)
 {
-    if (*root == NULL)
+    if (root == NULL)
     {
         return;
     }
-    freeTree(&(*root)->leftChild);
-    freeTree(&(*root)->rightChild);
-    free((*root)->value);
-    free(*root);
+    freeTree(root->leftChild);
+    freeTree(root->rightChild);
+    free(root->value);
+    free(root);
 }
 
-Node** find(Node** root, const int key)
+Node** findNode(Node* root, const int key)
 {
-    while (*root != NULL && (*root)->key != key)
+    Node** pointerRoot = &root;
+    Node* current = *pointerRoot;
+    while (current != NULL && current->key != key)
     {
-        root = (key < (*root)->key ? &(*root)->leftChild : &(*root)->rightChild);
+        pointerRoot = (key < current->key ? &current->leftChild : &current->rightChild);
+        current = *pointerRoot;
     }
-    return root;
+    return pointerRoot;
 }
 
-void add(Node** root, const int key, const char* value)
+char* findValue(Node* root, const int key)
 {
-    Node** node = find(root, key);
+    Node* foundNode = *findNode(root, key);
+    return foundNode == NULL ? NULL : foundNode->value;
+}
+
+void addNode(Node** root, const int key, const char* value)
+{
+    Node** node = findNode(root, key);
     if (*node != NULL)
     {
         free((*node)->value);
@@ -60,16 +79,18 @@ void add(Node** root, const int key, const char* value)
     strcpy((*node)->value, value);
 }
 
-void del(Node** root, const int key)
+void deleteNode(Node** root, const int key)
 {
-    Node** node = find(root, key);
+    Node** node = findNode(root, key);
     if (*node == NULL)
     {
         return;
     }
     if ((*node)->rightChild == NULL)
     {
+        Node* nodeToDelete = *node;
         *node = (*node)->leftChild;
+        free(nodeToDelete);
         return;
     }
     Node** next = &(*node)->rightChild;
@@ -78,13 +99,13 @@ void del(Node** root, const int key)
         next = &(*next)->leftChild;
     }
 
-    char* const tmpstr = (*node)->value;
+    char* const tmpStr = (*node)->value;
     (*node)->value = (*next)->value;
-    (*next)->value = tmpstr;
+    (*next)->value = tmpStr;
 
-    const int tmpint = (*node)->key;
+    const int tmpInt = (*node)->key;
     (*node)->key = (*next)->key;
-    (*next)->key = tmpint;
+    (*next)->key = tmpInt;
 
     Node* nodeToDelete = *next;
     *next = (*next)->rightChild;
